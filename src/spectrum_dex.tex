@@ -11,8 +11,8 @@
 \usepackage{graphicx}
 \graphicspath{ {./assets/} }
 
-\title{Spectrum DEX Leap: A sustainable, transparent, eUTxO-native decentralized exchange}
-\author{Ilia Oskin \\ \href{mailto:i.oskin@spectrumlabs.fi}{i.oskin@spectrumlabs.fi}}
+\title{Spectrum Bloom: A self-developing, sustainable, eUTxO-native framework for decentralized finance}
+\author{Ilya Oskin \\ \href{mailto:i.oskin@spectrumlabs.fi}{i.oskin@spectrumlabs.fi}}
 \date{Aug 2023}
 
 % Document
@@ -62,7 +62,7 @@
 
         \subsection{System Model}\label{subsec:system-model}
         We assume a UTxO based blockchain that supports multi-stage contracts (extended-UTxO) ~\cite{chepurnoy2018selfreproducing} and multi-token functionality.
-        In out model Decentralized Exchange (DEX) is a protocol that consists of two pillars:
+        In our model Decentralized Exchange (DEX) is a protocol that consists of two pillars:
         \begin{enumerate}
             \item \textbf{On-Chain}.
             On-Chain part is defined in terms of unspent transaction outputs (UTxOs) and validators guarding them.
@@ -85,9 +85,9 @@
         \subsection{Structure}\label{subsec:structure}
         The rest of the paper is structured as follows: in Section~\ref{sec:classical-dex-design} we first describe initial \enquote{classical} \
         approach to designing a DEX and discuss its weaknesses.
-        Then in Section~\ref{sec:spectrum-dex-framework} we iteratively address those weaknesses in a novel framework.
+        Then in Section~\ref{sec:spectrum-framework} we iteratively address those weaknesses in a novel framework.
         Section~\ref{sec:autonomous-account} is dedicated to detailed explanation and extension of the \enquote{Autonomous Account} introduced \
-        in Section~\ref{sec:spectrum-dex-framework}.
+        in Section~\ref{sec:spectrum-framework}.
 
 
         \section{Classical DEX design}\label{sec:classical-dex-design}
@@ -136,7 +136,7 @@
         different DEXes).
 
 
-        \section{Spectrum DEX Framework}\label{sec:spectrum-dex-framework}
+        \section{Spectrum Bloom Framework}\label{sec:spectrum-framework}
         We are now presenting a novel DEX framework by gradually improving the classical approach.
 
         \subsection{Explicit Order Routing}\label{subsec:making-execution-transparent}
@@ -144,7 +144,7 @@
         Users are now able to explicitly specify the set of off-chain operators allowed to execute their orders.
 
         To implement this we append the following condition to the validator script: \
-        $\exists PK_i, verify(\sigma, PK_i, H(T)) \wedge PK_i \in R$, \
+        $\exists PK_i: verify(\sigma, PK_i, H(T)) \wedge PK_i \in R$, \
         where $PK_i$ -- public key of $i-th$ executor, $verify(\sigma, PK, m) \rightarrow 0 | 1$ -- function that verifies signature $\sigma$ against public key $PK$ and message $m$, \
         $H(T)$ -- cryptographic hash of transaction, $R$ -- set of executors allowed to execute the order.
 
@@ -203,8 +203,8 @@
         over time until it hits the worst price the swapper would be willing to accept (e.g.\ 9.95 USDT per X).
         The decaying nature of Dutch orders creates a competitive market among executors to find the best possible price for traders \
         as soon as possible while keeping some small profit margin for themselves.
-        Off-chain executors are incentivized to fill an order as soon as it is profitable for them to do so. If they wait too long, \
-        they risk losing the order to another executor willing to take a smaller profit.
+        Off-chain executors are incentivized to fill an order as soon as it is profitable for them to do so.
+        If they wait too long, they risk losing the order to another executor willing to take a smaller profit.
 
         \newpage
         Universally composable orders open the door for infinite number of liquidity aggregation techniques that can be implemented by \
@@ -219,6 +219,8 @@
             can even involve routing of value through intermediate pools.}
             \label{fig:figure4}
         \end{figure}
+
+        In combination with transparent execution Dutch orders allow to drastically decrease (if not eliminate at all) BEV (MEV) on the platform.
 
         \newpage
 
